@@ -3,23 +3,23 @@
 Clone this application on a folder in a local machine, inside the folder 
 user the following commands:
 
-package the application
+* package the application
 ```shell
 mvn package
 ```
 
-build the application docker image
+* build the application docker image
 ```shell
 docker build -t api.school .
 ```
 
-start the docker containers with docker-compose
+* start the docker containers with docker-compose
 ```shell
 docker-compose up -d
 ```
 
 After completed these commands, you should have the two 
-containers up and running and the application listening to url and 
+containers up and running and the application listening to URL and 
 Swagger with the documentation of API available as well.
 - [http://localhost:8080](http://localhost:8080)
 - [http://localhost:8080/swagger-ui/#/](http://localhost:8080/swagger-ui/#/)
@@ -108,3 +108,8 @@ Get courses by student
 Get students without courses
 * Endpoint -> http://localhost:8080/student/without-course
 * Method -> GET
+
+For test the API you can use a tool called [POSTMAN](https://www.postman.com/) and send 
+requests to the API.
+
+![Postman](https://github.com/eduardojvendruscolo/metadata-school-registration/blob/master/images/postman.gif?raw=true)

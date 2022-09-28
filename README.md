@@ -24,11 +24,18 @@ Swagger with the documentation of API available as well.
 - [http://localhost:8080](http://localhost:8080)
 - [http://localhost:8080/swagger-ui/#/](http://localhost:8080/swagger-ui/#/)
 
-check the containers using **docker ps** or a [CTOP](https://github.com/bcicen/ctop) tool.
+Check the containers using **docker ps** or a [CTOP](https://github.com/bcicen/ctop) tool.
+
+* docker ps
+  ![DockerPs](https://github.com/eduardojvendruscolo/metadata-school-registration/blob/master/images/docker-ps.png?raw=true)
+* CTOP
+  ![CTOP](https://github.com/eduardojvendruscolo/metadata-school-registration/blob/master/images/ctop.png?raw=true)
 
 ## Endpoints and payloads
 
 The API documentation can be acessed by [http://localhost:8080/swagger-ui/#/](http://localhost:8080/swagger-ui/#/)
+
+![Swagger](https://github.com/eduardojvendruscolo/metadata-school-registration/blob/master/images/swagger.png?raw=true)
 
 **Course API**
 

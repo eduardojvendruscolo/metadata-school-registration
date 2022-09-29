@@ -35,7 +35,7 @@ Check the containers using **docker ps** or a [CTOP](https://github.com/bcicen/c
 
 The API documentation can be acessed by [http://localhost:8080/swagger-ui/#/](http://localhost:8080/swagger-ui/#/)
 
-![Swagger](https://github.com/eduardojvendruscolo/metadata-school-registration/blob/master/images/swagger.png?raw=true)
+![Swagger](https://github.com/eduardojvendruscolo/metadata-school-registration/blob/master/images/swagger_2.gif?raw=true)
 
 **Course API**
 

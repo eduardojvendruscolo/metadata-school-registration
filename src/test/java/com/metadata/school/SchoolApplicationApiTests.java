@@ -220,4 +220,95 @@ public class SchoolApplicationApiTests {
             .andExpect(status().isOk());
     }
 
+    @Test
+    public void testCourseApiEnrollStudent() throws Exception {
+
+        String payload = "{\n    \"name\": \"ad et aliquam\",\n    " +
+                "\"description\": \"Nostrum qui aliquid enim ipsam ut sed hic vel. Dolor quae adipisci saepe qui " +
+                "harum natus et. Est est quasi eum error dolor. Vel voluptas nihil molestias temporibus. " +
+                "Sint ullam et.\",\n    \"startDate\": \"1664458976\",\n    \"endDate\": \"1664458976\"\n}";
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders
+            .post("/course")
+            .content(payload)
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status().isCreated()).andReturn();
+
+        String courseId = JsonPath.read(result.getResponse().getContentAsString(), "$.id");
+
+        String payloadStudent = "{\n    \"name\": \"Noel Kautzer\",\n    \"document\": \"229\",\n" +
+                "\"birthDate\": 1664462036,\n    \"phoneNumber\": \"42-239-228-9281\"\n}";
+
+        MvcResult resultStudent = mvc.perform(MockMvcRequestBuilders
+            .post("/student")
+            .content(payloadStudent)
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status().isCreated()).andReturn();
+
+        String studentId = JsonPath.read(resultStudent.getResponse().getContentAsString(), "$.id");
+
+        mvc.perform(MockMvcRequestBuilders
+            .post("/course/"+courseId+"/enroll-student/"+studentId)
+            .content(payload)
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status().isCreated());
+    }
+
+    @Test
+    public void testCourseApiEnrollStudentDuplicate() throws Exception {
+
+        String payload = "{\n    \"name\": \"ad et aliquam\",\n    " +
+                "\"description\": \"Nostrum qui aliquid enim ipsam ut sed hic vel. Dolor quae adipisci saepe qui " +
+                "harum natus et. Est est quasi eum error dolor. Vel voluptas nihil molestias temporibus. " +
+                "Sint ullam et.\",\n    \"startDate\": \"1664458976\",\n    \"endDate\": \"1664458976\"\n}";
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders
+                        .post("/course")
+                        .content(payload)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isCreated()).andReturn();
+
+        String courseId = JsonPath.read(result.getResponse().getContentAsString(), "$.id");
+
+        String payloadStudent = "{\n    \"name\": \"Noel Kautzer\",\n    \"document\": \"229\",\n" +
+                "\"birthDate\": 1664462036,\n    \"phoneNumber\": \"42-239-228-9281\"\n}";
+
+        MvcResult resultStudent = mvc.perform(MockMvcRequestBuilders
+            .post("/student")
+            .content(payloadStudent)
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status().isCreated()).andReturn();
+
+        String studentId = JsonPath.read(resultStudent.getResponse().getContentAsString(), "$.id");
+
+        mvc.perform(MockMvcRequestBuilders
+            .post("/course/"+courseId+"/enroll-student/"+studentId)
+            .content(payload)
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status().isCreated());
+
+        MvcResult resultEnrollError = mvc.perform(MockMvcRequestBuilders
+            .post("/course/"+courseId+"/enroll-student/"+studentId)
+            .content(payload)
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status().isBadRequest()).andReturn();
+
+        String errorMessage = JsonPath.read(resultEnrollError.getResponse().getContentAsString(), "$.error");
+        Assertions.assertTrue(errorMessage.contains("is already enrolled on course"));
+    }
+
 }

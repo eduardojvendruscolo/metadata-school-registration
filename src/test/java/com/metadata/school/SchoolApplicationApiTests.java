@@ -12,6 +12,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.UUID;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -269,12 +271,12 @@ public class SchoolApplicationApiTests {
                 "Sint ullam et.\",\n    \"startDate\": \"1664458976\",\n    \"endDate\": \"1664458976\"\n}";
 
         MvcResult result = mvc.perform(MockMvcRequestBuilders
-                        .post("/course")
-                        .content(payload)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isCreated()).andReturn();
+            .post("/course")
+            .content(payload)
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status().isCreated()).andReturn();
 
         String courseId = JsonPath.read(result.getResponse().getContentAsString(), "$.id");
 
@@ -309,6 +311,66 @@ public class SchoolApplicationApiTests {
 
         String errorMessage = JsonPath.read(resultEnrollError.getResponse().getContentAsString(), "$.error");
         Assertions.assertTrue(errorMessage.contains("is already enrolled on course"));
+    }
+
+    @Test
+    public void testCourseApiEnrollInvalidStudent() throws Exception {
+
+        String payload = "{\n    \"name\": \"ad et aliquam\",\n    " +
+                "\"description\": \"Nostrum qui aliquid enim ipsam ut sed hic vel. Dolor quae adipisci saepe qui " +
+                "harum natus et. Est est quasi eum error dolor. Vel voluptas nihil molestias temporibus. " +
+                "Sint ullam et.\",\n    \"startDate\": \"1664458976\",\n    \"endDate\": \"1664458976\"\n}";
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders
+            .post("/course")
+            .content(payload)
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status().isCreated()).andReturn();
+
+        String courseId = JsonPath.read(result.getResponse().getContentAsString(), "$.id");
+
+        UUID uuid = UUID.randomUUID();
+        MvcResult resultEnrollError = mvc.perform(MockMvcRequestBuilders
+            .post("/course/"+courseId+"/enroll-student/" + uuid)
+            .content(payload)
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status().isBadRequest()).andReturn();
+
+        String errorMessage = JsonPath.read(resultEnrollError.getResponse().getContentAsString(), "$.error");
+        Assertions.assertTrue(errorMessage.contains("The student with id "+uuid+" was not found"));
+    }
+
+    @Test
+    public void testCourseApiEnrollInvalidCourse() throws Exception {
+
+        String payload = "{\n    \"name\": \"Phil McKenzie\",\n    \"document\": \"917\",\n    " +
+                "\"birthDate\": 1664462481,\n    \"phoneNumber\": \"69-511-698-5522\"\n}";
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders
+            .post("/student")
+            .content(payload)
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status().isCreated()).andReturn();
+
+        String studentId = JsonPath.read(result.getResponse().getContentAsString(), "$.id");
+
+        UUID uuid = UUID.randomUUID();
+        MvcResult resultEnrollError = mvc.perform(MockMvcRequestBuilders
+            .post("/course/" + uuid + "/enroll-student/" + studentId)
+            .content(payload)
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status().isBadRequest()).andReturn();
+
+        String errorMessage = JsonPath.read(resultEnrollError.getResponse().getContentAsString(), "$.error");
+        Assertions.assertTrue(errorMessage.contains("The course with id "+uuid+" was not found"));
     }
 
 }

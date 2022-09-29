@@ -36,9 +36,9 @@ public class SchoolApplicationApiTests {
     @Test
     public void testCourseApiSaveNewCourse() throws Exception {
 
-        String payload = "{\n    \"name\": \"ad et aliquam\",\n    " +
+        String payload = "{\n    \"name\": \"ad et aliquam\",\n" +
                 "\"description\": \"Nostrum qui aliquid enim ipsam ut sed hic vel. Dolor quae adipisci saepe qui " +
-                "harum natus et. Est est quasi eum error dolor. Vel voluptas nihil molestias temporibus. " +
+                "harum natus et. Est est quasi eum error dolor. Vel voluptas nihil molestias temporibus." +
                 "Sint ullam et.\",\n    \"startDate\": \"1664458976\",\n    \"endDate\": \"1664458976\"\n}";
 
         mvc.perform(MockMvcRequestBuilders
@@ -80,7 +80,7 @@ public class SchoolApplicationApiTests {
     @Test
     public void testCourseApiDeleteCourse() throws Exception {
 
-        String payload = "{\n    \"name\": \"voluptatem tenetur omnis\",\n    \"description\": \"Hic voluptatem similique" +
+        String payload = "{\n    \"name\": \"voluptatem tenetur omnis\",\n    \"description\": \"Hic voluptatem similique " +
                 " et. Sint earum est. Aut qui atque ad inventore magnam quo nobis ipsam. Ea in enim voluptas ab. Nihil" +
                 " non molestiae.\",\n    \"startDate\": \"1664459907\",\n    \"endDate\": \"1664459907\"\n}";
 

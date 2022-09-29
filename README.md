@@ -75,6 +75,10 @@ Get a list of courses without students
 * Endpoint -> http://localhost:8080/course/without-student
 * Method -> GET
 
+Get courses with all relationships of students
+* Endpoint -> http://localhost:8080/course/all-relationships
+* Method -> GET
+
 **Student API**
 
 Save a new student
@@ -107,6 +111,10 @@ Get courses by student
 
 Get students without courses
 * Endpoint -> http://localhost:8080/student/without-course
+* Method -> GET
+
+Get students with all relationships of courses
+* Endpoint -> http://localhost:8080/student/all-relationships
 * Method -> GET
 
 For test the API you can use a tool called [POSTMAN](https://www.postman.com/) and send 

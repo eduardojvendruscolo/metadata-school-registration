@@ -1,0 +1,25 @@
+version: '3.4'
+
+services:
+  mysql.school:
+    image: mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: school
+    volumes:
+      - mysql.school.data:/var/lib/mysql
+
+  api.school:
+    image: api.school
+    depends_on:
+      - mysql.school
+    ports:
+      - 8080:8080
+    environment:
+      spring.datasource.url: jdbc:mysql://mysql.school:3306/school
+
+
+volumes:
+  mysql.school.data:

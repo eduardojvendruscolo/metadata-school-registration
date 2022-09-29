@@ -19,9 +19,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 @SpringBootTest
-@Transactional
 @ActiveProfiles("test")
-class SchoolApplicationTests {
+class SchoolApplicationServiceTests {
 
 	@Autowired
 	private CourseService courseService;
@@ -121,6 +120,7 @@ class SchoolApplicationTests {
 	}
 
 	@Test
+	@Transactional
 	void validateMaxCourseEnrollments() {
 		Course course = podamFactory.manufacturePojo(Course.class);
 		Course insertedCourse = courseService.saveCourse(course);
@@ -140,6 +140,7 @@ class SchoolApplicationTests {
 	}
 
 	@Test
+	@Transactional
 	public void testMaxStudentEnrollments() {
 		Student student = podamFactory.manufacturePojo(Student.class);
 		Student insertedStudent = studentService.saveStudent(student);
@@ -159,6 +160,7 @@ class SchoolApplicationTests {
 	}
 
 	@Test
+	@Transactional
 	public void testDuplicateEnrollments(){
 		Student student = podamFactory.manufacturePojo(Student.class);
 		Student insertedStudent = studentService.saveStudent(student);

@@ -13,7 +13,7 @@ import java.util.UUID;
 @Table(name = "course")
 @Getter @Setter
 public class Course {
-    
+
     @Id
     @org.hibernate.annotations.Type(type="org.hibernate.type.UUIDCharType")
     private UUID id;

@@ -120,4 +120,4 @@ Get students with all relationships of courses
 For test the API you can use a tool called [POSTMAN](https://www.postman.com/) and send 
 requests to the API.
 
-![Postman](https://github.com/eduardojvendruscolo/metadata-school-registration/blob/master/images/postman.gif?raw=true)
+![Postman](https://github.com/eduardojvendruscolo/metadata-school-registration/blob/master/images/postman_2.gif?raw=true)

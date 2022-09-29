@@ -1,29 +1,17 @@
 package com.metadata.school;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ser.PropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.jayway.jsonpath.JsonPath;
-import com.metadata.school.school.course.Course;
-import com.metadata.school.school.course.CourseDTO;
-import com.metadata.school.school.student.StudentDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.mapping.SimplePropertyHandler;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.Date;
 import java.util.UUID;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -39,6 +27,7 @@ public class SchoolApplicationApiTests {
 
     @Test
     public void testCourseApiGetCoursesWithoutStudents() throws Exception {
+
         mvc.perform(MockMvcRequestBuilders
             .get("/course/without-student")
             .contentType(MediaType.APPLICATION_JSON)
@@ -314,8 +303,9 @@ public class SchoolApplicationApiTests {
         String courseId = JsonPath.read(result.getResponse().getContentAsString(), "$.id");
 
         UUID uuid = UUID.randomUUID();
+
         MvcResult resultEnrollError = mvc.perform(MockMvcRequestBuilders
-            .post("/course/"+courseId+"/enroll-student/" + uuid)
+            .post("/course/" + courseId + "/enroll-student/" + uuid)
             .content(payload)
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON))
@@ -323,7 +313,7 @@ public class SchoolApplicationApiTests {
             .andExpect(status().isBadRequest()).andReturn();
 
         String errorMessage = JsonPath.read(resultEnrollError.getResponse().getContentAsString(), "$.error");
-        Assertions.assertTrue(errorMessage.contains("The student with id "+uuid+" was not found"));
+        Assertions.assertTrue(errorMessage.contains("The student with id " + uuid + " was not found"));
     }
 
     @Test
@@ -351,7 +341,7 @@ public class SchoolApplicationApiTests {
             .andExpect(status().isBadRequest()).andReturn();
 
         String errorMessage = JsonPath.read(resultEnrollError.getResponse().getContentAsString(), "$.error");
-        Assertions.assertTrue(errorMessage.contains("The course with id "+uuid+" was not found"));
+        Assertions.assertTrue(errorMessage.contains("The course with id " + uuid + " was not found"));
     }
 
 }

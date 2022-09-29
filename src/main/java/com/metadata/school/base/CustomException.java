@@ -7,7 +7,6 @@ import java.util.Date;
 
 @Getter @Setter
 public class CustomException extends RuntimeException {
-
     private String error;
     private Date dateTime;
 

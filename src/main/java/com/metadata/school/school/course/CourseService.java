@@ -3,7 +3,6 @@ package com.metadata.school.school.course;
 import com.metadata.school.base.CustomException;
 import com.metadata.school.school.student.Student;
 import com.metadata.school.school.student.StudentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +13,6 @@ import java.util.UUID;
 
 @Service
 public class CourseService {
-
     private final CourseRepository courseRepository;
     private final StudentRepository studentRepository;
     private final MessageSource messageSource;

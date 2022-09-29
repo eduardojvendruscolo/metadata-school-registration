@@ -21,7 +21,6 @@ import java.util.UUID;
 @SpringBootTest
 @ActiveProfiles("test")
 class SchoolApplicationServiceTests {
-
 	@Autowired
 	private CourseService courseService;
 

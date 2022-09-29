@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 import java.util.UUID;
 
-//TODO verificar JPARepository
 public interface CourseRepository extends JpaRepository<Course, UUID> {
     @Query(value = "select count(s) from Course c left join c.students s where c.id = :courseId")
     Long studentsCount(UUID courseId);

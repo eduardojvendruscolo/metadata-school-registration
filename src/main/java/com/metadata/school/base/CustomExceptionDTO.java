@@ -1,7 +1,11 @@
 package com.metadata.school.base;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Date;
 
+@Getter @Setter
 public class CustomExceptionDTO {
     private String error;
     private Date dateTime;
@@ -11,11 +15,4 @@ public class CustomExceptionDTO {
         this.dateTime = dateTime;
     }
 
-    public String getError() {
-        return error;
-    }
-
-    public Date getDateTime() {
-        return dateTime;
-    }
 }

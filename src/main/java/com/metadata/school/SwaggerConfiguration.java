@@ -12,7 +12,6 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 @Configuration
 public class SwaggerConfiguration {
-
     @Bean
     public Docket docket(){
         return new Docket(DocumentationType.SWAGGER_2)

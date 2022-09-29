@@ -1,6 +1,8 @@
 package com.metadata.school.school.student;
 
 import com.metadata.school.school.course.Course;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -9,7 +11,9 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "student")
+@Getter @Setter
 public class Student {
+
     @Id
     @org.hibernate.annotations.Type(type="org.hibernate.type.UUIDCharType")
     private UUID id;
@@ -26,65 +30,4 @@ public class Student {
     )
     private Set<Course> courses;
 
-    public Student() {
-    }
-
-    public UUID getId() {
-        return id;
-    }
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Date getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public String getDocument() {
-        return document;
-    }
-
-    public void setDocument(String document) {
-        this.document = document;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public Set<Course> getCourses() {
-        return courses;
-    }
-
-    public void setCourses(Set<Course> courses) {
-        this.courses = courses;
-    }
-
-    @Override
-    public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", birthDate=" + birthDate +
-                ", document='" + document + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", courses=" + courses +
-                '}';
-    }
 }

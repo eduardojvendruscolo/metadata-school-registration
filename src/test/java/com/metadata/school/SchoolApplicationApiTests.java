@@ -1,17 +1,29 @@
 package com.metadata.school;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ser.PropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.jayway.jsonpath.JsonPath;
+import com.metadata.school.school.course.Course;
+import com.metadata.school.school.course.CourseDTO;
+import com.metadata.school.school.student.StudentDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.mapping.SimplePropertyHandler;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.Date;
 import java.util.UUID;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -38,10 +50,7 @@ public class SchoolApplicationApiTests {
     @Test
     public void testCourseApiSaveNewCourse() throws Exception {
 
-        String payload = "{\n    \"name\": \"ad et aliquam\",\n" +
-                "\"description\": \"Nostrum qui aliquid enim ipsam ut sed hic vel. Dolor quae adipisci saepe qui " +
-                "harum natus et. Est est quasi eum error dolor. Vel voluptas nihil molestias temporibus." +
-                "Sint ullam et.\",\n    \"startDate\": \"1664458976\",\n    \"endDate\": \"1664458976\"\n}";
+        String payload = new CoursePayloadBuilder().build();
 
         mvc.perform(MockMvcRequestBuilders
             .post("/course")
@@ -55,10 +64,7 @@ public class SchoolApplicationApiTests {
     @Test
     public void testCourseApiUpdateCourse() throws Exception {
 
-        String payload = "{\n    \"name\": \"animi aut nemo\",\n    \"description\": \"Delectus sequi distinctio. " +
-                "Inventore ad doloribus aspernatur laborum. Error aspernatur atque ut. Saepe amet suscipit laborum " +
-                "omnis omnis aut veritatis. Hic ut unde quia molestiae fugit neque quam laboriosam " +
-                "et.\",\n    \"startDate\": \"1664459632\",\n    \"endDate\": \"1664459632\"\n}";
+        String payload = new CoursePayloadBuilder().build();
 
         MvcResult result = mvc.perform(MockMvcRequestBuilders
             .post("/course")
@@ -82,9 +88,7 @@ public class SchoolApplicationApiTests {
     @Test
     public void testCourseApiDeleteCourse() throws Exception {
 
-        String payload = "{\n    \"name\": \"voluptatem tenetur omnis\",\n    \"description\": \"Hic voluptatem similique " +
-                " et. Sint earum est. Aut qui atque ad inventore magnam quo nobis ipsam. Ea in enim voluptas ab. Nihil" +
-                " non molestiae.\",\n    \"startDate\": \"1664459907\",\n    \"endDate\": \"1664459907\"\n}";
+        String payload = new CoursePayloadBuilder().build();
 
         MvcResult result = mvc.perform(MockMvcRequestBuilders
             .post("/course")
@@ -107,10 +111,7 @@ public class SchoolApplicationApiTests {
     @Test
     public void testCourseApiSaveNewCourseInvalidNameSize() throws Exception {
 
-        String payload = "{\n    \"name\": \"a\",\n    " +
-                "\"description\": \"Nostrum qui aliquid enim ipsam ut sed hic vel. Dolor quae adipisci saepe qui " +
-                "harum natus et. Est est quasi eum error dolor. Vel voluptas nihil molestias temporibus. " +
-                "Sint ullam et.\",\n    \"startDate\": \"1664458976\",\n    \"endDate\": \"1664458976\"\n}";
+        String payload = new CoursePayloadBuilder().setName("a").build();
 
         MvcResult result = mvc.perform(MockMvcRequestBuilders
             .post("/course")
@@ -127,10 +128,7 @@ public class SchoolApplicationApiTests {
     @Test
     public void testCourseApiSaveNewCourseInvalidDate() throws Exception {
 
-        String payload = "{\n    \"name\": \"a\",\n    " +
-                "\"description\": \"Nostrum qui aliquid enim ipsam ut sed hic vel. Dolor quae adipisci saepe qui " +
-                "harum natus et. Est est quasi eum error dolor. Vel voluptas nihil molestias temporibus. " +
-                "Sint ullam et.\",\n    \"startDate\": \"abc\"}";
+        String payload = new CoursePayloadBuilder().setStartDate(null).build();
 
         mvc.perform(MockMvcRequestBuilders
             .post("/course")
@@ -139,14 +137,12 @@ public class SchoolApplicationApiTests {
             .accept(MediaType.APPLICATION_JSON))
             .andDo(print())
             .andExpect(status().isBadRequest());
-
     }
 
     @Test
     public void testCourseApiSaveNewCourseInvalidDescription() throws Exception {
 
-        String payload = "{\n    \"name\": \"aliquid sed\",\n    " +
-                "\"description\": \"ab\",\n    \"startDate\": \"1664458976\",\n    \"endDate\": \"1664458976\"\n}";
+        String payload = new CoursePayloadBuilder().setDescription("a").build();
 
         mvc.perform(MockMvcRequestBuilders
             .post("/course")
@@ -158,10 +154,9 @@ public class SchoolApplicationApiTests {
     }
 
     @Test
-    public void testCourseApiSaveNewStudent() throws Exception {
+    public void testStudentApiSaveNewStudent() throws Exception {
 
-        String payload = "{\n    \"name\": \"Noel Kautzer\",\n    \"document\": \"229\",\n" +
-                "\"birthDate\": 1664462036,\n    \"phoneNumber\": \"42-239-228-9281\"\n}";
+        String payload = new StudentPayloadBuilder().build();
 
         mvc.perform(MockMvcRequestBuilders
             .post("/student")
@@ -173,10 +168,9 @@ public class SchoolApplicationApiTests {
     }
 
     @Test
-    public void testCourseApiUpdateStudent() throws Exception {
+    public void testStudentApiUpdateStudent() throws Exception {
 
-        String payload = "{\n    \"name\": \"Phil McKenzie\",\n    \"document\": \"917\",\n    " +
-                "\"birthDate\": 1664462481,\n    \"phoneNumber\": \"69-511-698-5522\"\n}";
+        String payload = new StudentPayloadBuilder().build();
 
         MvcResult result = mvc.perform(MockMvcRequestBuilders
             .post("/student")
@@ -198,10 +192,9 @@ public class SchoolApplicationApiTests {
     }
 
     @Test
-    public void testCourseApiDeleteStudent() throws Exception {
+    public void testStduentApiDeleteStudent() throws Exception {
 
-        String payload = "{\n    \"name\": \"Elmer Breitenberg\",\n    \"document\": \"596\",\n    " +
-                "\"birthDate\": 1664462452,\n    \"phoneNumber\": \"81-777-835-5590\"\n}";
+        String payload = new StudentPayloadBuilder().build();
 
         MvcResult result = mvc.perform(MockMvcRequestBuilders
             .post("/student")
@@ -225,10 +218,7 @@ public class SchoolApplicationApiTests {
     @Test
     public void testCourseApiEnrollStudent() throws Exception {
 
-        String payload = "{\n    \"name\": \"ad et aliquam\",\n    " +
-                "\"description\": \"Nostrum qui aliquid enim ipsam ut sed hic vel. Dolor quae adipisci saepe qui " +
-                "harum natus et. Est est quasi eum error dolor. Vel voluptas nihil molestias temporibus. " +
-                "Sint ullam et.\",\n    \"startDate\": \"1664458976\",\n    \"endDate\": \"1664458976\"\n}";
+        String payload = new CoursePayloadBuilder().build();
 
         MvcResult result = mvc.perform(MockMvcRequestBuilders
             .post("/course")
@@ -240,8 +230,7 @@ public class SchoolApplicationApiTests {
 
         String courseId = JsonPath.read(result.getResponse().getContentAsString(), "$.id");
 
-        String payloadStudent = "{\n    \"name\": \"Noel Kautzer\",\n    \"document\": \"229\",\n" +
-                "\"birthDate\": 1664462036,\n    \"phoneNumber\": \"42-239-228-9281\"\n}";
+        String payloadStudent = new StudentPayloadBuilder().build();
 
         MvcResult resultStudent = mvc.perform(MockMvcRequestBuilders
             .post("/student")
@@ -265,10 +254,7 @@ public class SchoolApplicationApiTests {
     @Test
     public void testCourseApiEnrollStudentDuplicate() throws Exception {
 
-        String payload = "{\n    \"name\": \"ad et aliquam\",\n    " +
-                "\"description\": \"Nostrum qui aliquid enim ipsam ut sed hic vel. Dolor quae adipisci saepe qui " +
-                "harum natus et. Est est quasi eum error dolor. Vel voluptas nihil molestias temporibus. " +
-                "Sint ullam et.\",\n    \"startDate\": \"1664458976\",\n    \"endDate\": \"1664458976\"\n}";
+        String payload = new CoursePayloadBuilder().build();
 
         MvcResult result = mvc.perform(MockMvcRequestBuilders
             .post("/course")
@@ -280,8 +266,7 @@ public class SchoolApplicationApiTests {
 
         String courseId = JsonPath.read(result.getResponse().getContentAsString(), "$.id");
 
-        String payloadStudent = "{\n    \"name\": \"Noel Kautzer\",\n    \"document\": \"229\",\n" +
-                "\"birthDate\": 1664462036,\n    \"phoneNumber\": \"42-239-228-9281\"\n}";
+        String payloadStudent = new StudentPayloadBuilder().build();
 
         MvcResult resultStudent = mvc.perform(MockMvcRequestBuilders
             .post("/student")
@@ -316,10 +301,7 @@ public class SchoolApplicationApiTests {
     @Test
     public void testCourseApiEnrollInvalidStudent() throws Exception {
 
-        String payload = "{\n    \"name\": \"ad et aliquam\",\n    " +
-                "\"description\": \"Nostrum qui aliquid enim ipsam ut sed hic vel. Dolor quae adipisci saepe qui " +
-                "harum natus et. Est est quasi eum error dolor. Vel voluptas nihil molestias temporibus. " +
-                "Sint ullam et.\",\n    \"startDate\": \"1664458976\",\n    \"endDate\": \"1664458976\"\n}";
+        String payload = new CoursePayloadBuilder().build();
 
         MvcResult result = mvc.perform(MockMvcRequestBuilders
             .post("/course")
@@ -347,8 +329,7 @@ public class SchoolApplicationApiTests {
     @Test
     public void testCourseApiEnrollInvalidCourse() throws Exception {
 
-        String payload = "{\n    \"name\": \"Phil McKenzie\",\n    \"document\": \"917\",\n    " +
-                "\"birthDate\": 1664462481,\n    \"phoneNumber\": \"69-511-698-5522\"\n}";
+        String payload = new StudentPayloadBuilder().build();
 
         MvcResult result = mvc.perform(MockMvcRequestBuilders
             .post("/student")
@@ -371,6 +352,92 @@ public class SchoolApplicationApiTests {
 
         String errorMessage = JsonPath.read(resultEnrollError.getResponse().getContentAsString(), "$.error");
         Assertions.assertTrue(errorMessage.contains("The course with id "+uuid+" was not found"));
+    }
+
+    private class CoursePayloadBuilder {
+
+        private final CourseDTO course;
+        private final ObjectMapper mapper = new ObjectMapper();
+
+        public CoursePayloadBuilder() {
+            course = new CourseDTO();
+            course.setName("fugit suscipit in");
+            course.setDescription("Vero qui quas illum aut doloremque ipsum nemo veniam fugiat. Ut labore aut explicabo consectetur. Nisi accusantium et et ut et.");
+            course.setStartDate(new Date());
+            course.setEndDate(new Date());
+        }
+
+        public String build() {
+            try {
+                return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(course);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        public CoursePayloadBuilder setName(String name){
+            course.setName(name);
+            return this;
+        }
+
+        public CoursePayloadBuilder setDescription(String description){
+            course.setDescription(description);
+            return this;
+        }
+
+        public CoursePayloadBuilder setStartDate(Date startDate){
+            course.setStartDate(startDate);
+            return this;
+        }
+
+        public CoursePayloadBuilder setEndDate(Date endDate){
+            course.setEndDate(endDate);
+            return this;
+        }
+
+    }
+
+    private class StudentPayloadBuilder {
+
+        private final StudentDTO student;
+        private final ObjectMapper mapper = new ObjectMapper();
+
+        public StudentPayloadBuilder() {
+            student = new StudentDTO();
+            student.setName("Erick Heaney");
+            student.setDocument("1234567");
+            student.setBirthDate(new Date());
+            student.setPhoneNumber("86-709-625-6486");
+        }
+
+        public String build() {
+            try {
+                return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(student);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        public StudentPayloadBuilder setName(String name){
+            student.setName(name);
+            return this;
+        }
+
+        public StudentPayloadBuilder setDocument(String document){
+            student.setDocument(document);
+            return this;
+        }
+
+        public StudentPayloadBuilder setBirthDate(Date birthDate){
+            student.setBirthDate(birthDate);
+            return this;
+        }
+
+        public StudentPayloadBuilder setPhoneNumber(String phoneNumber){
+            student.setPhoneNumber(phoneNumber);
+            return this;
+        }
+
     }
 
 }

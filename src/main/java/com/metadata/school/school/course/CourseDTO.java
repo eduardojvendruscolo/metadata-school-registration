@@ -1,6 +1,7 @@
 package com.metadata.school.school.course;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.metadata.school.school.student.StudentDTO;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import java.util.UUID;
 @Getter @Setter
 public class CourseDTO {
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private UUID id;
 
     @NotNull

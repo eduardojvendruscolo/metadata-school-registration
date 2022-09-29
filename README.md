@@ -13,14 +13,14 @@ mvn package
 docker build -t api.school .
 ```
 
-* start the docker containers with docker-compose
+* start the docker containers with docker-compose (make sure your port 8080 is free)
 ```shell
 docker-compose up -d
 ```
 
 After completed these commands, you should have the two 
-containers up and running and the application listening to URL and 
-Swagger with the documentation of API available as well.
+containers up and running. The application should be listening to URL and 
+the Swagger with the documentation of API available as well.
 - [http://localhost:8080](http://localhost:8080)
 - [http://localhost:8080/swagger-ui/#/](http://localhost:8080/swagger-ui/#/)
 

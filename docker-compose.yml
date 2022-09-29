@@ -6,7 +6,7 @@ services:
     ports:
       - 3306:3306
     environment:
-      MYSQL_ROOT_PASSWORD: example
+      MYSQL_ROOT_PASSWORD: vjzbeQ7XwMblL1SXdRR2U
       MYSQL_DATABASE: school
     volumes:
       - mysql.school.data:/var/lib/mysql

@@ -26,10 +26,10 @@ public class CourseDTO {
     @Size(min = 3, max = 255, message = "{course.description.size.error}")
     private String description;
 
-    @NotNull
+    @NotNull(message = "{course.start.date.empty}")
     private Date startDate;
 
-    @NotNull
+    @NotNull(message = "{course.end.date.empty}")
     private Date endDate;
 
     @JsonIgnoreProperties("courses")

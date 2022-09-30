@@ -1,7 +1,7 @@
 ## Running the application locally
 
-Clone this application on a folder in a local machine, inside the folder 
-user the following commands:
+Clone this application in a folder on your local computer, inside the folder 
+execute the following commands:
 
 * package the application
 ```shell
@@ -13,7 +13,7 @@ mvn package
 docker build -t api.school .
 ```
 
-* start the docker containers with docker-compose (make sure your port 8080 is free)
+* start the docker containers with docker-compose _(make sure your port 8080 is free)_
 ```shell
 docker-compose up -d
 ```

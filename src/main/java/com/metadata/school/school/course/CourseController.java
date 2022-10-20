@@ -34,7 +34,6 @@ public class CourseController {
     @PostMapping
     public ResponseEntity<?> saveCourse(@Valid @RequestBody CourseDTO courseDTO){
         Course course = modelMapper.map(courseDTO, Course.class);
-        course.setId(UUID.randomUUID());
 
         Course savedCourse = courseService.saveCourse(course);
 

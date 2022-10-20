@@ -34,12 +34,10 @@ public class StudentController {
     @PostMapping
     public ResponseEntity<?> saveStudent(@Valid @RequestBody StudentDTO studentDTO){
         Student student = modelMapper.map(studentDTO, Student.class);
-        student.setId(UUID.randomUUID());
 
         Student savedStudent = studentService.saveStudent(student);
 
         StudentDTO studentDTOReturn = modelMapper.map(savedStudent, StudentDTO.class);
-
         return new ResponseEntity<>(studentDTOReturn, HttpStatus.CREATED);
     }
 

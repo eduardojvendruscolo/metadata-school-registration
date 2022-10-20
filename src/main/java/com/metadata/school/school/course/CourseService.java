@@ -3,6 +3,7 @@ package com.metadata.school.school.course;
 import com.metadata.school.base.CustomException;
 import com.metadata.school.school.student.Student;
 import com.metadata.school.school.student.StudentRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
@@ -55,14 +56,17 @@ public class CourseService {
         return courseRepository.findById(id);
     }
 
+    @Cacheable(value = "getStudentsByCourse")
     public List<Student> getStudentsByCourse(UUID courseId){
         return courseRepository.studentsByCourse(courseId);
     }
 
+    @Cacheable(value = "getCoursesWithoutStudent")
     public List<Course> getCoursesWithoutStudent(){
         return courseRepository.coursesWithoutStudent();
     }
 
+    @Cacheable(value = "getCoursesWithStudents")
     public List<Course> getCoursesWithStudents(){
         return courseRepository.findAll();
     }

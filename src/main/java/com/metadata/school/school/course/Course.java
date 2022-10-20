@@ -1,28 +1,25 @@
 package com.metadata.school.school.course;
 
+import com.metadata.school.base.BaseEntity;
 import com.metadata.school.school.student.Student;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.Set;
-import java.util.UUID;
+import java.io.Serializable;
+import java.util.*;
 
 @Entity
 @Table(name = "course")
 @Getter @Setter
-public class Course {
+public class Course extends BaseEntity implements Serializable {
 
-    @Id
-    @org.hibernate.annotations.Type(type="org.hibernate.type.UUIDCharType")
-    private UUID id;
     private String name;
     private String description;
     private Date startDate;
     private Date endDate;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "course_student",
             joinColumns = @JoinColumn(name = "course_id"),

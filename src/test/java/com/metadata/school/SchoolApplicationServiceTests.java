@@ -41,7 +41,7 @@ class SchoolApplicationServiceTests {
 		Course insertedCourse = courseService.saveCourse(course);
 
 		Assertions.assertNotNull(insertedCourse);
-		Assertions.assertEquals(course.getId(), insertedCourse.getId());
+		Assertions.assertNotNull(insertedCourse.getId());
 		Assertions.assertEquals(course.getDescription(), insertedCourse.getDescription());
 		Assertions.assertEquals(course.getStartDate(), insertedCourse.getStartDate());
 		Assertions.assertEquals(course.getEndDate(), insertedCourse.getEndDate());
@@ -82,7 +82,7 @@ class SchoolApplicationServiceTests {
 		Student insertedStudent = studentService.saveStudent(student);
 
 		Assertions.assertNotNull(insertedStudent);
-		Assertions.assertEquals(student.getId(), insertedStudent.getId());
+		Assertions.assertNotNull(insertedStudent.getId());
 		Assertions.assertEquals(student.getName(), insertedStudent.getName());
 		Assertions.assertEquals(student.getDocument(), insertedStudent.getDocument());
 		Assertions.assertEquals(student.getPhoneNumber(), insertedStudent.getPhoneNumber());
